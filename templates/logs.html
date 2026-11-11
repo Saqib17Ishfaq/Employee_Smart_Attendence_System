@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <h3>logs</h3>
+  <div class="card mb-3 p-3">
+    <form method="post" class="row g-2">
+      <div class="col-md-5">
+        <label>Start Date</label>
+        <input type="date" name="start_date" class="form-control" value="{{ filters.start_date if filters }}">
+      </div>
+      <div class="col-md-5">
+        <label>End Date</label>
+        <input type="date" name="end_date" class="form-control" value="{{ filters.end_date if filters }}">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Generate</button>
+      </div>
+    </form>
+  </div>
+{% if logs is not none %}
+<script>  
+  console.log({{ logs|tojson }}); 
+</script>
+{% endif %}
+
+{% if logs is not none %}
+  <div class="card mb-3 p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5>Results ({{ logs|length }})</h5>
+      <a class="btn btn-outline-secondary" id="downloadReport"
+   href="javascript:void(0);">
+   Save PDF
+</a>
+<script>
+document.getElementById("downloadReport").addEventListener("click", () => {
+  const element = document.querySelectorAll(".table")[0]; // your report table container
+  html2pdf().set({
+    margin: 0.5,
+    filename: 'logs.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, scrollY: -window.scrollY },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+}).from(element).outputPdf('blob').then((pdfBlob) => {
+        // Send PDF blob to backend
+        const formData = new FormData();
+        formData.append('pdf', pdfBlob, 'logs.pdf');
+
+        fetch('http://localhost:5001/save_log_pdf', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                // alert('✅ PDF saved successfully on the backend!');
+            } else {
+                // alert('❌ Failed to save PDF: ' + (data.message || 'Unknown error'));
+                console.log('Failed to save PDF:', data || 'Unknown error');
+            }
+        })
+        .catch(err => {
+            console.error('Error uploading PDF:', err);
+            alert('⚠ Error sending PDF to backend.');
+        });
+    });
+});
+</script>
+
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+            <th>Activity Name</th>
+            <th>Activity Duration</th>
+            <th>Attendance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp_id, records in logs.items() %}
+            {% for r in records %}
+              <tr>
+                <td>{{ r.date }}</td>
+                <td>{{ r.employee_id }}</td>
+                <td>{{ r.employee_name }}</td>
+                <td>{{ r.activity_name }}</td>
+                <td>{{ r.activity_duration | round(0) }}s</td>
+                <td>{{ r.attendance }}</td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% else %}
+  <div class="card p-3 text-muted">No logs available.</div>
+{% endif %}
+
+{% endblock %}

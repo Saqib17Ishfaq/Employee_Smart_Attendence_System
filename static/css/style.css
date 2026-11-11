@@ -1,0 +1,107 @@
+:root{
+  --sidebar-width:240px;
+  --brand-dark:#1f2d3d; /* deep navy */
+  --brand-mid:#2e4050;
+  --accent:#b98f4b; /* warm gold */
+  --muted:#6b7280;
+  --bg:#f5f6f8;
+  --card-bg:#ffffff;
+  --soft-border: rgba(16,24,32,0.06);
+}
+
+/* Typography */
+body{
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg);
+  color: #101827;
+}
+
+#wrapper{display:flex}
+#sidebar{width:var(--sidebar-width);min-height:100vh;background: linear-gradient(180deg,var(--brand-dark), var(--brand-mid));}
+#sidebar .sidebar-header{padding:28px 18px;border-bottom:1px solid rgba(255,255,255,0.04)}
+#sidebar .sidebar-header h4{font-family: 'Lora', serif;margin:0;color:var(--accent);letter-spacing:0.6px}
+#sidebar .sidebar-header small{color:rgba(255,255,255,0.75)}
+
+#sidebar .components{padding-left:0;margin-top:12px}
+#sidebar .components li{list-style:none;padding:12px 20px}
+#sidebar .components li a{color:rgba(255,255,255,0.92);text-decoration:none;display:block;padding:8px;border-radius:6px;font-weight:600}
+#sidebar .components li a:hover{background: rgba(255,255,255,0.04);color:var(--accent)}
+#page-content-wrapper{min-height:100vh}
+
+/* Card styling */
+.card{background:var(--card-bg);border:1px solid var(--soft-border);border-radius:10px;box-shadow:0 6px 18px rgba(16,24,32,0.06)}
+.card .card-body h5{font-family:'Lora', serif;margin-bottom:6px}
+
+/* Buttons - formal palette */
+.btn-primary{background:var(--brand-mid);border-color:var(--brand-mid);color:#fff}
+.btn-primary:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+.btn-danger{background:#9b2b2b;border-color:#9b2b2b}
+.btn-outline-primary{border-color:var(--brand-mid);color:var(--brand-mid)}
+.btn-outline-secondary{border-color:var(--muted);color:var(--muted)}
+
+/* Video placeholder */
+.video-placeholder{height:340px;display:flex;align-items:center;justify-content:center}
+.video-placeholder, #videoBox { position: relative; overflow: hidden; border-radius: 10px; background: linear-gradient(180deg,#0f1724 0%, #0b1220 100%); }
+.video-placeholder .placeholder-inner{color:rgba(255,255,255,0.9);opacity:0.95}
+
+/* Ensure video elements fill the placeholder and are clipped inside the box */
+.video-placeholder video, #videoBox video, #sessionVideo, #recordedPreview, #playbackVideo {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Recording status */
+#recordingStatus { font-weight:600 }
+#recordingStatus .ms-2 { color: #fff }
+#recordingStatusText{color:var(--accent)}
+
+/* Tables */
+.table thead th{background: linear-gradient(90deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));border-bottom:1px solid var(--soft-border);font-weight:600}
+.table tbody tr td{vertical-align:middle}
+
+/* Responsive */
+@media (max-width: 768px){
+  #sidebar{display:none}
+}
+
+/* Small helpers */
+.placeholder-inner{opacity:0.95}
+.text-muted.small{color:#9aa1ab}
+:root{--sidebar-width:220px}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+#wrapper{display:flex}
+#sidebar{width:var(--sidebar-width);min-height:100vh}
+#sidebar .components{padding-left:0}
+#sidebar .components li{list-style:none;padding:10px 20px}
+#sidebar a{color:rgba(255,255,255,0.9);text-decoration:none}
+#page-content-wrapper{min-height:100vh}
+.video-placeholder{height:320px;display:flex;align-items:center;justify-content:center}
+.video-placeholder, #videoBox { position: relative; overflow: hidden; border-radius: 8px; }
+
+/* Ensure video elements fill the placeholder and are clipped inside the box */
+.video-placeholder video, #videoBox video, #sessionVideo, #recordedPreview, #playbackVideo {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 460px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Controls overlay inside video box (removed: using dashboard-level controls instead) */
+.thumb{width:48px;height:48px;object-fit:cover;border-radius:4px;margin-right:6px}
+.placeholder-inner{opacity:0.85}
+
+@media (max-width: 768px){
+  #sidebar{display:none}
+}
+
+.card{box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+
+#recIndicator{font-weight:600}
+#recIndicator{font-weight:600}
+.video-placeholder video{max-height:420px}
